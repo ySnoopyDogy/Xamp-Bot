@@ -3,8 +3,7 @@ const { MessageEmbed } = require('discord.js')
 
 class PingCommand extends Command {
   constructor(client) {
-    super(client, 'createlangmessage', {
-      aliases: ['clm'],
+    super(client, 'config', {
       category: 'moderation',
       UserPermission: ['ADMINISTRATOR'],
       ClientPermissions: ['SEND_MESSAGES', 'SEND_LINKS'],
@@ -12,7 +11,17 @@ class PingCommand extends Command {
   }
 
   async run(ctx) {
+    if (!ctx.args || ctx.args.length === 0) {
+      const noArgsEmbed = new MessageEmbed()
+        .setColor('RED')
+        .setTitle('⚙️ | Escolha o que você quer configurar')
+        .setDescription(`
+      coistas 
+      da
+      config`)
 
+      ctx.sendEmbed(noArgsEmbed, true)
+    }
   }
 }
 

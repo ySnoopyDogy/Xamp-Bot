@@ -1,4 +1,4 @@
-const MessageCommandContext = require('../structures/MessageCommandContext')
+const CommandContext = require('../structures/CommandContext')
 
 class MessageCreateEvent {
   constructor(client) {
@@ -21,7 +21,7 @@ class MessageCreateEvent {
       this.client.commands.get(this.client.aliases.get(command));
     if (!comando) return;
 
-    const ctx = new MessageCommandContext(this.client, message, args);
+    const ctx = new CommandContext(this.client, message, args);
 
     const userPermission = comando.config.UserPermission;
     const clientPermission = comando.config.ClientPermissions;

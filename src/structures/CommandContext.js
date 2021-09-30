@@ -1,4 +1,4 @@
-class MessageCommandContext {
+class CommandContext {
   constructor(client, message, args) {
     this.client = client;
     this.message = message;
@@ -14,13 +14,13 @@ class MessageCommandContext {
     return this.message.channel.send({ embeds: [embed] });
   }
 
-  async sendR(msg) {
+  async send(msg) {
     return this.message.channel.send(msg);
   }
 
-  async reply(text) {
+  async reply(options) {
     return this.message.channel.send({
-      content: text,
+      ...options,
       reply: {
         messageReference: this.message,
       },
@@ -28,4 +28,4 @@ class MessageCommandContext {
   }
 }
 
-module.exports = MessageCommandContext
+module.exports = CommandContext
