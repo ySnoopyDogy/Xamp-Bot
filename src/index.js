@@ -1,4 +1,5 @@
 const Client = require('./structures/Client')
+require('./structures/Database')
 
 const client = new Client({
   intents: ['GUILDS', 'GUILD_MESSAGES'],

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/ySnoopyDogy/Xamp-Bot#readme",
   "dependencies": {
     "discord.js": "^13.1.0",
-    "dotenv": "^10.0.0"
+    "dotenv": "^10.0.0",
+    "mongoose": "^6.0.8"
   }
 }
