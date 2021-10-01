@@ -1,7 +1,7 @@
 const Command = require("../../../structures/MessageCommand");
 const { MessageEmbed } = require('discord.js')
 
-class PingCommand extends Command {
+class MessagePingCommand extends Command {
   constructor(client) {
     super(client, 'ping', {
       category: 'utils',
@@ -31,4 +31,4 @@ class PingCommand extends Command {
   }
 }
 
-module.exports = PingCommand
+module.exports = MessagePingCommand
