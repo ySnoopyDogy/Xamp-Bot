@@ -34,13 +34,6 @@ class ConfigSlashCommand extends SlashCommand {
             name: 'idioma',
             description: 'Canais responsáveis pelas mensagens de idioma',
             options: [{
-              type: 'STRING',
-              name: 'tipo',
-              description: 'Qual canal quer configurar',
-              required: true,
-              choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }]
-            },
-            {
               type: 'CHANNEL',
               name: 'canal',
               description: 'Canal selecionado',
@@ -113,18 +106,9 @@ class ConfigSlashCommand extends SlashCommand {
         }
         return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para a opção ${ctx.options.getString('tipo')}!`)
       }
+      await this.client.database.updateOne({ name: 'config' }, { messageLang: ctx.options.getChannel('canal').id })
+      return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para mensagem do idioma!`)
 
-      switch (ctx.options.getString('tipo')) {
-        case 'br': {
-          await this.client.database.updateOne({ name: 'config' }, { messageLangBR: ctx.options.getChannel('canal').id })
-          break;
-        }
-        case 'us': {
-          await this.client.database.updateOne({ name: 'config' }, { messageLangUS: ctx.options.getChannel('canal').id })
-          break;
-        }
-      }
-      return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para mensagem do idioma ${ctx.options.getString('tipo')}!`)
     }
 
     if (ctx.options.getSubcommand() === 'idioma') {
