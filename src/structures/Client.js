@@ -10,6 +10,7 @@ class CustomClient extends Client {
     this.slashCommands = new Collection()
     this.aliases = new Collection();
     this.Events = new EventManager(this);
+    this.database = require('./Database')
   }
 
   async login(token) {
