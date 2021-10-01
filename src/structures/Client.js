@@ -7,6 +7,7 @@ class CustomClient extends Client {
     super(options)
 
     this.commands = new Collection();
+    this.slashCommands = new Collection()
     this.aliases = new Collection();
     this.Events = new EventManager(this);
   }
@@ -29,6 +30,17 @@ class CustomClient extends Client {
   loadCommands(directory) {
     return FileUtil.readDirectory(directory, this, (cmd, filepath) => {
       this.loadCommand(cmd, filepath);
+    });
+  }
+
+  async loadSlash(command, filepath) {
+    command.dir = filepath;
+    this.slashCommands.set(command.name, command);
+  }
+
+  loadSlashCommands(directory) {
+    return FileUtil.readDirectory(directory, this, (cmd, filepath) => {
+      this.loadSlash(cmd, filepath);
     });
   }
 

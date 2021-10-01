@@ -11,11 +11,11 @@ class CommandContext {
         embeds: [embed],
         reply: { messageReference: this.message },
       });
-    return this.message.channel.send({ embeds: [embed] });
+    return this.message.channel.send({ embeds: [embed] }).catch(() => null);
   }
 
   async send(msg) {
-    return this.message.channel.send(msg);
+    return this.message.channel.send(msg).catch(() => null);
   }
 
   async reply(options) {
@@ -24,7 +24,7 @@ class CommandContext {
       reply: {
         messageReference: this.message,
       },
-    });
+    }).catch(() => null);
   }
 }
 

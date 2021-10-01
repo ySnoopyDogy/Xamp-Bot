@@ -5,7 +5,8 @@ const client = new Client({
   intents: ['GUILDS', 'GUILD_MESSAGES'],
 });
 
-client.loadCommands(`${__dirname}/commands`);
+client.loadCommands(`${__dirname}/commands/text`);
+client.loadSlashCommands(`${__dirname}/commands/slash`)
 client.loadEvents(`${__dirname}/events`);
 client
   .login(process.env.TOKEN)
