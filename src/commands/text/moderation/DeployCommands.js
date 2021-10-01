@@ -1,5 +1,4 @@
 const Command = require("../../../structures/MessageCommand");
-const { MessageEmbed } = require('discord.js')
 
 class MessageDeployCommand extends Command {
   constructor(client) {
@@ -22,7 +21,7 @@ class MessageDeployCommand extends Command {
     }, [])
 
     await ctx.message.guild.commands.set(commands)
-    ctx.reply('Comandos deployados')
+    ctx.reply({ content: 'Comandos deployados' })
   }
 }
 

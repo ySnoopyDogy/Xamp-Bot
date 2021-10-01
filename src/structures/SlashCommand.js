@@ -2,7 +2,7 @@
 class SlashCommand {
   constructor(client, options) {
     this.client = client;
-    this.options = options
+    this.config = options
   }
 
   run() { }

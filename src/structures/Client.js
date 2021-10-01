@@ -35,7 +35,7 @@ class CustomClient extends Client {
 
   async loadSlash(command, filepath) {
     command.dir = filepath;
-    this.slashCommands.set(command.name, command);
+    this.slashCommands.set(command.config.name, command);
   }
 
   loadSlashCommands(directory) {
