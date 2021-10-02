@@ -78,9 +78,9 @@ class CreatemsgSlashCommand extends SlashCommand {
         Para podermos iniciar o seu atendimento, escolha um setor e clique no botão correspondente a área desejada.
         
         Departamentos:
-        🔩 - Suporte Técnico (problemas/dúvidas gerais do serviço)
-        💰 - Suporte Financeiro (suporte pré-compra/dúvidas financeiras)
-        📋 - Validação (aplicação da tag cliente)
+        🔩 - **Suporte Técnico** (problemas/dúvidas gerais do serviço)
+        💰 - **Suporte Financeiro** (suporte pré-compra/dúvidas financeiras)
+        📋 - **Validação** (aplicação da tag cliente)
         
         Ps: possuímos membros na nossa equipe responsáveis por cada setor, por isso, pedimos que evite abrir ticket sem querer/na área incorreta.`)
         .setFooter('Copyright © BattleHost', process.env.LOGO_URL)
@@ -122,9 +122,9 @@ class CreatemsgSlashCommand extends SlashCommand {
       If you have any questions, choose a sector and click on the button corresponding to the desired area.
       
       Departments:
-      🔩 - Technical Support (general service problems/doubts)
-      💰 - Financial Support (pre-purchase support/financial inquiries)
-      📋 - Validation (client tag application in discord)
+      🔩 - **Technical Support** (general service problems/doubts)
+      💰 - **Financial Support** (pre-purchase support/financial inquiries)
+      📋 - **Validation** (client tag application in discord)
       
       Ps: we have members in our team responsible for each sector, so we ask you to avoid opening a ticket accidentally/in the wrong area.`)
       .setFooter('Copyright © BattleHost', process.env.LOGO_URL)

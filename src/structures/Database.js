@@ -12,6 +12,9 @@ const configSchema = new Schema({
   roleLangBR: String,
   roleLangUS: String,
   roleAdministrator: String,
+  validation: { type: Number, default: 0 },
+  financial: { type: Number, default: 0 },
+  technical: { type: Number, default: 0 },
 });
 
 const config = model('configs', configSchema);

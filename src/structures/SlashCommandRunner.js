@@ -13,7 +13,8 @@ module.exports = (client, interaction) => {
     if (!interaction.member?.permissions.has(userPermission)) {
       const perm = userPermission.map(value => `\`${value}\``).join(', ');
       return ctx.reply(
-        `Você precisa das permissões: ${perm} pra executar isso, ${message.author}`
+        `Você precisa das permissões: ${perm} pra executar isso, ${interaction.user.toString()}`,
+        true
       );
     }
   }

@@ -127,7 +127,7 @@ class ConfigSlashCommand extends SlashCommand {
 
     await this.client.database.updateOne({ name: 'config' }, { roleAdministrator: ctx.options.getRole('cargo').id })
 
-    return this.respond(ctx, `O cargo <#${ctx.options.getRole('cargo').id}> foi settado para administrador!`)
+    return this.respond(ctx, `O cargo <@&${ctx.options.getRole('cargo').id}> foi settado para administrador!`)
   }
 
   async respond(ctx, text) {
