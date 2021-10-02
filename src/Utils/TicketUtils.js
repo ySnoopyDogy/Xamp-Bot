@@ -1,16 +1,23 @@
 const { MessageEmbed, MessageButton } = require("discord.js")
 
+
+const prettyType = {
+  tech: 'tecnico',
+  val: 'validacao',
+  fin: 'financeiro'
+}
+
 const categoriesByLang =
 {
-  br: {
+  pt: {
     tech: 'Suporte Técnico',
-    val: 'Suporte Financeiro',
-    fin: 'Validação'
+    fin: 'Suporte Financeiro',
+    val: 'Validação'
   },
   us: {
     tech: 'Technical Support',
-    val: 'Financial Support',
-    fin: 'Validation'
+    fin: 'Financial Support',
+    val: 'Validation'
   }
 }
 
@@ -28,11 +35,11 @@ class TicketUtils {
 
     const toRepeat = (3 - ticketNumber.toString().length) < 0 ? 0 : (3 - ticketNumber.toString().length)
 
-    const channelName = `${type}-${"0".repeat(toRepeat)}${ticketNumber}`
+    const channelName = `${prettyType[type]}-${"0".repeat(toRepeat)}${ticketNumber}`
 
     const createdChannel = await guild.channels.create(channelName, {
       type: 'GUILD_TEXT',
-      topic: `${user.id} | ${categoriesByLang.br[type]} [${lang.toUpperCase()}]`,
+      topic: `${user.id} | ${categoriesByLang.pt[type]} [${lang.toUpperCase()}]`,
       parent: categoryId,
       permissionOverwrites: [
         {
@@ -56,7 +63,7 @@ class TicketUtils {
     if (!createdChannel) return null
 
     const embed = new MessageEmbed()
-    if (lang === 'br') {
+    if (lang === 'pt') {
       embed.setTitle('BattleHost - Suporte (PT-BR)')
         .setDescription(`Olá ${user.toString()} bem-vindo ao sistema de suporte da BattleHost.
         Você será atendido em breve, enquanto isso, descreva mais o seu problema/dúvida.`)
