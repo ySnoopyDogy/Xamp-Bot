@@ -37,7 +37,7 @@ class InteractionCreateEvent {
         if (method === 'close') {
           if (!interaction.member.roles.cache.has(config.roleAdministrator)) return interaction.reply({ content: '> Only admins can do this!', ephemeral: true })
           const topic = interaction.channel.topic.split(" | ")
-          TicketUtils.closeTicket(this.client.channels.cache.get(config.messageTicketLog), interaction.channel.name, topic[0], topic[1], interaction.user.id)
+          TicketUtils.closeTicket(this.client.channels.cache.get(config.messageTicketLog), interaction.channel.name, topic[0], topic[1], interaction.user.id, await interaction.channel.messages.fetch({ limit: 100 }))
           await interaction.reply("> Ticket fechado!")
           interaction.channel.delete().catch(() => interaction.channel.send("Ocorreu um erro ao deletar este canal! Por favor, faça-o manualmente"))
         }

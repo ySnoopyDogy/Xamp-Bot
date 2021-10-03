@@ -1,4 +1,5 @@
-const { MessageEmbed, MessageButton } = require("discord.js")
+const { MessageEmbed, MessageButton, MessageAttachment } = require("discord.js")
+const moment = require('moment-timezone')
 
 
 const prettyType = {
@@ -22,13 +23,25 @@ const categoriesByLang =
 }
 
 class TicketUtils {
-  static closeTicket(toSendChannel, ticketName, user, topic, closedBy) {
+  static closeTicket(toSendChannel, ticketName, user, topic, closedBy, messages) {
     const embed = new MessageEmbed()
       .setTitle('Ticket Fechado')
       .setColor('RED')
       .setDescription(`**Sala:** #${ticketName}\n**Usuário:** <@${user}> (${user})\n**Tópico:** ${topic}\n**Fechado por:** <@${closedBy}> (${closedBy})`)
 
-    toSendChannel.send({ embeds: [embed] })
+
+    const lines = []
+
+    messages.each(message => {
+      if (message?.partial) return;
+      lines.push(`${moment(message.createdTimestamp).tz("America/Sao_Paulo").format('DD/MM/YYYY [às] hh:mm:ss')} (${message.author.id}) ${message.author.tag}: ${message.content.length > 0 ? message.content : `[ANEXO]: ${message.attachments.size > 0 ? message.attachments.map(a => a.url).join(", ") : "Sem link de anexos"}`}`)
+    })
+
+    lines.reverse()
+
+    const attc = new MessageAttachment(Buffer.from(lines.join('\n')), `${Date.now()}.log`)
+
+    toSendChannel.send({ embeds: [embed], files: [attc] })
   }
 
   static async createTicket(guild, adminRole, user, lang, type, ticketNumber, categoryId, everyone) {
