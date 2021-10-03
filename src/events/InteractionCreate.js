@@ -48,7 +48,7 @@ class InteractionCreateEvent {
             await this.client.database.updateOne({ name: 'config' }, { $inc: { technical: 1 } })
             const createdChannel = await TicketUtils.createTicket(interaction.guild, interaction.guild.roles.cache.get(config.roleAdministrator), interaction.user, lang, method, config.technical + 1, config.messageTicketCategory, interaction.guild.roles.everyone)
             if (!createdChannel) return interaction.followUp({ content: lang === 'pt' ? '> Ocorreu um erro. Tente novamente!' : '> An error occured. Try again!', ephemeral: true })
-            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! #${createdChannel}` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
+            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! <#${createdChannel}>` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
             break;
           }
           case 'val': {
@@ -56,7 +56,7 @@ class InteractionCreateEvent {
             await this.client.database.updateOne({ name: 'config' }, { $inc: { validation: 1 } })
             const createdChannel = await TicketUtils.createTicket(interaction.guild, interaction.guild.roles.cache.get(config.roleAdministrator), interaction.user, lang, method, config.validation + 1, config.messageTicketCategory, interaction.guild.roles.everyone)
             if (!createdChannel) return interaction.followUp({ content: lang === 'pt' ? '> Ocorreu um erro. Tente novamente!' : '> An error occured. Try again!', ephemeral: true })
-            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! #${createdChannel}` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
+            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! <#${createdChannel}>` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
             break;
           }
           case 'fin': {
@@ -64,7 +64,7 @@ class InteractionCreateEvent {
             await this.client.database.updateOne({ name: 'config' }, { $inc: { financial: 1 } })
             const createdChannel = await TicketUtils.createTicket(interaction.guild, interaction.guild.roles.cache.get(config.roleAdministrator), interaction.user, lang, method, config.financial + 1, config.messageTicketCategory, interaction.guild.roles.everyone)
             if (!createdChannel) return interaction.followUp({ content: lang === 'pt' ? '> Ocorreu um erro. Tente novamente!' : '> An error occured. Try again!', ephemeral: true })
-            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! #${createdChannel}` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
+            interaction.followUp({ content: lang === 'pt' ? `> Seu ticket foi criado com sucesso! <#${createdChannel}>` : `> Your ticket was created successfully! <#${createdChannel}>`, ephemeral: true })
             break;
           }
         }

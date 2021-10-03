@@ -12,6 +12,7 @@ class GuildMemberRemoveEvent {
 
     category.children.each(async channel => {
       if (channel?.partial || channel.type !== 'GUILD_TEXT') return;
+      if (!channel?.topic) return
       const [user, topic] = channel.topic.split(' | ');
 
       if (user !== member.id) return;
@@ -20,7 +21,7 @@ class GuildMemberRemoveEvent {
 
       TicketUtils.closeTicket(this.client.channels.cache.get(config.messageTicketLog), channel.name, user, topic, this.client.user.id, await channel.messages.fetch({ limit: 100 }))
 
-      interaction.channel.delete().catch(() => channel.send("Ocorreu um erro ao deletar este canal! Por favor, faça-o manualmente"))
+      channel.delete().catch(() => channel.send("Ocorreu um erro ao deletar este canal! Por favor, faça-o manualmente"))
     })
 
   }
