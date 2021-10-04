@@ -19,6 +19,7 @@ class MessageConfigCommand extends Command {
       **Canal de Criação de Ticket US**: <#${allConfigs.messageTicketUS ?? '`NONE`'}> (${allConfigs.messageTicketUS ?? '`NONE`'})
       **Categoria para Criação dos Tickets**: <#${allConfigs.messageTicketCategory ?? '`NONE`'}> (${allConfigs.messageTicketCategory ?? '`NONE`'})     
       **Canal para os Logs de Tickets**: <#${allConfigs.messageTicketLog ?? '`NONE`'}> (${allConfigs.messageTicketLog ?? '`NONE`'})
+      **Canal para os Logs de Convites**: <#${allConfigs.messageInviter ?? '`NONE`'}> (${allConfigs.messageInviter ?? '`NONE`'})
       **Canal para Escolha de Idioma**: <#${allConfigs.messageLang ?? '`NONE`'}> (${allConfigs.messageLang ?? '`NONE`'})
       **Cargo do Idioma PT**: <@&${allConfigs.roleLangBR ?? '`NONE`'}> (${allConfigs.roleLangBR ?? '`NONE`'})
       **Cargo do Idioma US**: <@&${allConfigs.roleLangUS ?? '`NONE`'}> (${allConfigs.roleLangUS ?? '`NONE`'})

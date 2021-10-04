@@ -1,7 +1,7 @@
 const Client = require('./structures/Client')
 
 const client = new Client({
-  intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS'],
+  intents: ['GUILDS', 'GUILD_MESSAGES', 'GUILD_MEMBERS', 'GUILD_INVITES'],
 });
 
 client.loadCommands(`${__dirname}/commands/text`);

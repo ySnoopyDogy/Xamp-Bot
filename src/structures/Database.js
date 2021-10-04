@@ -9,12 +9,14 @@ const configSchema = new Schema({
   messageTicketCategory: String,
   messageTicketLog: String,
   messageLang: String,
+  messageInviter: String,
   roleLangBR: String,
   roleLangUS: String,
   roleAdministrator: String,
   validation: { type: Number, default: 0 },
   financial: { type: Number, default: 0 },
   technical: { type: Number, default: 0 },
+  invites: { type: Array, default: [] }
 });
 
 const config = model('configs', configSchema);

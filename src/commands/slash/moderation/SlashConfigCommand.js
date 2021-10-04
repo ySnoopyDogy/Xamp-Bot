@@ -39,6 +39,17 @@ class ConfigSlashCommand extends SlashCommand {
               description: 'Canal selecionado',
               required: true
             }]
+          },
+          {
+            type: 'SUB_COMMAND',
+            name: 'invites',
+            description: 'Canal responsável pelo log de timers',
+            options: [{
+              type: 'CHANNEL',
+              name: 'canal',
+              description: 'Canal selecionado',
+              required: true
+            }]
           }]
         },
         {
@@ -75,6 +86,41 @@ class ConfigSlashCommand extends SlashCommand {
                 required: true
               }]
           }]
+        },
+        {
+          type: 'SUB_COMMAND_GROUP',
+          name: 'convites',
+          description: 'Configurações de convites',
+          options: [{
+            type: 'SUB_COMMAND',
+            name: 'adicionar',
+            description: 'Adicionar um convite',
+            options: [{
+              type: 'STRING',
+              name: 'codigo',
+              description: 'Código do Convite',
+              required: true,
+            },
+            {
+              type: 'STRING',
+              name: 'nome',
+              description: 'Nome para este convite',
+              required: true
+            }]
+          },
+          {
+            type: 'SUB_COMMAND',
+            name: 'remover',
+            description: 'Remover um convite',
+            options: [{
+              type: 'STRING',
+              name: 'codigo',
+              description: 'Código do Convite',
+              required: true,
+            },
+            ]
+          },
+          ]
         }
       ],
       category: 'moderation',
@@ -105,29 +151,59 @@ class ConfigSlashCommand extends SlashCommand {
           }
         }
         return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para a opção ${ctx.options.getString('tipo')}!`)
+      } else if (ctx.options.getSubcommand() === 'idioma') {
+        await this.client.database.updateOne({ name: 'config' }, { messageLang: ctx.options.getChannel('canal').id })
+        return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para mensagem do idioma!`)
+      } else {
+        await this.client.database.updateOne({ name: 'config' }, { messageInviter: ctx.options.getChannel('canal').id })
+        return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para mensagem do invite log!`)
       }
-      await this.client.database.updateOne({ name: 'config' }, { messageLang: ctx.options.getChannel('canal').id })
-      return this.respond(ctx, `O canal <#${ctx.options.getChannel('canal').id}> foi settado para mensagem do idioma!`)
-
     }
 
-    if (ctx.options.getSubcommand() === 'idioma') {
-      switch (ctx.options.getString('tipo')) {
-        case 'br': {
-          await this.client.database.updateOne({ name: 'config' }, { roleLangBR: ctx.options.getRole('cargo').id })
-          break;
+    if (ctx.options.getSubcommandGroup() === 'cargo') {
+      if (ctx.options.getSubcommand() === 'idioma') {
+        switch (ctx.options.getString('tipo')) {
+          case 'br': {
+            await this.client.database.updateOne({ name: 'config' }, { roleLangBR: ctx.options.getRole('cargo').id })
+            break;
+          }
+          case 'us': {
+            await this.client.database.updateOne({ name: 'config' }, { roleLangUS: ctx.options.getRole('cargo').id })
+            break;
+          }
         }
-        case 'us': {
-          await this.client.database.updateOne({ name: 'config' }, { roleLangUS: ctx.options.getRole('cargo').id })
-          break;
-        }
+        return this.respond(ctx, `O cargo <@&${ctx.options.getRole('cargo').id}> foi settado para o idioma ${ctx.options.getString('tipo')} !`)
       }
-      return this.respond(ctx, `O cargo <@&${ctx.options.getRole('cargo').id}> foi settado para o idioma ${ctx.options.getString('tipo')} !`)
+
+      await this.client.database.updateOne({ name: 'config' }, { roleAdministrator: ctx.options.getRole('cargo').id })
+
+      return this.respond(ctx, `O cargo <@&${ctx.options.getRole('cargo').id}> foi settado para administrador!`)
     }
 
-    await this.client.database.updateOne({ name: 'config' }, { roleAdministrator: ctx.options.getRole('cargo').id })
+    const config = await this.client.database.findOne({ name: 'config' })
 
-    return this.respond(ctx, `O cargo <@&${ctx.options.getRole('cargo').id}> foi settado para administrador!`)
+    if (ctx.options.getSubcommand() === 'adicionar') {
+      const code = ctx.options.getString('codigo')
+      const name = ctx.options.getString('nome')
+
+      const exists = config.invites.some(a => a.code === code)
+      if (exists) return this.respond(ctx, 'Este código já existe nos convites!')
+
+      config.invites.push({ name, code, uses: 0 })
+      await config.save()
+      return this.respond(ctx, `O código \`${code}\` foi adicionado com o nome **${name}**`)
+    }
+
+    const code = ctx.options.getString('codigo')
+
+    const exists = config.invites.some(a => a.code === code)
+    if (!exists) return this.respond(ctx, 'Este código não existe nos convites!')
+
+    await this.client.database.updateOne({ name: 'config' }, { $pull: { invites: { code } } })
+    return this.respond(ctx, `O código \`${code}\` foi removido dos convites!`)
+
+
+
   }
 
   async respond(ctx, text) {
