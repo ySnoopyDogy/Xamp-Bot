@@ -28,7 +28,7 @@ class InteractionCreateEvent {
     switch (type) {
       case 'LANG': {
         if (interaction.member.roles.cache.hasAny(config.roleLangBR, config.roleLangUS)) return interaction.deferUpdate()
-        const res = await interaction.member.roles.add(lang === 'pt' ? config.rolelangBR : config.roleLangUS).catch(() => null)
+        const res = await interaction.member.roles.add(lang === 'pt' ? config.roleLangBR : config.roleLangUS).catch(() => null)
         if (!res) return interaction.reply({ content: '> Error!', ephemeral: true })
         interaction.reply({ content: '> OK', ephemeral: true })
         break;
