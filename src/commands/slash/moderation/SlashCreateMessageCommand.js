@@ -22,7 +22,7 @@ class CreatemsgSlashCommand extends SlashCommand {
             name: 'tipo',
             description: 'Qual idioma da mensagem?',
             required: true,
-            choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }]
+            choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }, { name: 'Espanhol', value: 'es' }]
           }]
         }],
       category: 'moderation',
@@ -42,7 +42,7 @@ class CreatemsgSlashCommand extends SlashCommand {
       const embed = new MessageEmbed()
         .setColor('#35af1f')
         .setTitle('BattleHost - www.battlehost.com.br')
-        .setDescription(`Bem vindo ao discord da BattleHost, maior empresa de hospedagem de jogos do Brasil. Para um melhor atendimento, escolha um idioma entre as duas opções abaixo.\n\n🇧🇷 Português (PT-BR)\n🇺🇸 English (EN-US)\n\nPs: não é possível a alteração do idioma.`)
+        .setDescription(`Bem vindo ao discord da BattleHost, maior empresa de hospedagem de jogos do Brasil. Para um melhor atendimento, escolha um idioma entre as duas opções abaixo.\n\n🇧🇷 Português (PT-BR)\n🇺🇸 English (EN-US)\n🇪🇸 Español (ES-ES)\n\nPs: não é possível a alteração do idioma.`)
         .setFooter('Copyright ©️ BattleHost', process.env.LOGO_URL)
 
       const ptButton = new MessageButton()
@@ -57,7 +57,13 @@ class CreatemsgSlashCommand extends SlashCommand {
         .setLabel('English (EN-US)')
         .setStyle('SUCCESS')
 
-      channelToSend.send({ embeds: [embed], components: [{ type: 1, components: [ptButton, usButton] }] })
+      const esButton = new MessageButton()
+        .setCustomId('LANG es')
+        .setEmoji('🇪🇸')
+        .setLabel('Español (ES-ES)')
+        .setStyle('SUCCESS')
+
+      channelToSend.send({ embeds: [embed], components: [{ type: 1, components: [ptButton, usButton, esButton] }] })
       ctx.reply('Mensagem criada com sucesso', true)
       return
     }
@@ -108,16 +114,18 @@ class CreatemsgSlashCommand extends SlashCommand {
       return
     }
 
-    const channelId = await this.client.database.findOne({ name: 'config' })
+    if (ctx.options.getString('tipo') === 'us') {
 
-    if (!channelId.messageTicketUS) return ctx.reply('O canal para a mensagem de ticket em PT não existe')
+      const channelId = await this.client.database.findOne({ name: 'config' })
 
-    const channelToSend = this.client.channels.cache.get(channelId.messageTicketUS)
+      if (!channelId.messageTicketUS) return ctx.reply('O canal para a mensagem de ticket em PT não existe')
 
-    const embed = new MessageEmbed()
-      .setColor('#35af1f')
-      .setTitle('BattleHost - Support by Discord (EN-US)')
-      .setDescription(`Welcome to BattleHost's support center.
+      const channelToSend = this.client.channels.cache.get(channelId.messageTicketUS)
+
+      const embed = new MessageEmbed()
+        .setColor('#35af1f')
+        .setTitle('BattleHost - Support by Discord (EN-US)')
+        .setDescription(`Welcome to BattleHost's support center.
 
       If you have any questions, choose a sector and click on the button corresponding to the desired area.
       
@@ -127,29 +135,76 @@ class CreatemsgSlashCommand extends SlashCommand {
       📋 - **Validation** (client tag application in discord)
       
       Ps: we have members in our team responsible for each sector, so we ask you to avoid opening a ticket accidentally/in the wrong area.`)
-      .setFooter('Copyright © BattleHost', process.env.LOGO_URL)
+        .setFooter('Copyright © BattleHost', process.env.LOGO_URL)
 
-    const techSup = new MessageButton()
-      .setCustomId('TICKET us tech')
-      .setEmoji('🔩')
-      .setLabel('- Technical Support')
-      .setStyle('SUCCESS')
+      const techSup = new MessageButton()
+        .setCustomId('TICKET us tech')
+        .setEmoji('🔩')
+        .setLabel('- Technical Support')
+        .setStyle('SUCCESS')
 
-    const finSup = new MessageButton()
-      .setCustomId('TICKET us fin')
-      .setEmoji('💰')
-      .setLabel('- Financial Support')
-      .setStyle('SUCCESS')
+      const finSup = new MessageButton()
+        .setCustomId('TICKET us fin')
+        .setEmoji('💰')
+        .setLabel('- Financial Support')
+        .setStyle('SUCCESS')
 
-    const valSup = new MessageButton()
-      .setCustomId('TICKET us val')
-      .setEmoji('📋')
-      .setLabel('- Validation')
-      .setStyle('SUCCESS')
+      const valSup = new MessageButton()
+        .setCustomId('TICKET us val')
+        .setEmoji('📋')
+        .setLabel('- Validation')
+        .setStyle('SUCCESS')
 
-    channelToSend.send({ embeds: [embed], components: [{ type: 1, components: [techSup, finSup, valSup] }] })
-    ctx.reply('Mensagem criada com sucesso', true)
-    return
+      channelToSend.send({ embeds: [embed], components: [{ type: 1, components: [techSup, finSup, valSup] }] })
+      ctx.reply('Mensagem criada com sucesso', true)
+      return
+    }
+
+    if (ctx.options.getString('tipo') === 'es') {
+      const channelId = await this.client.database.findOne({ name: 'config' })
+
+      if (!channelId.messageTicketES) return ctx.reply('O canal para a mensagem de ticket em ES não existe')
+
+      const channelToSend = this.client.channels.cache.get(channelId.messageTicketES)
+
+      const embed = new MessageEmbed()
+        .setColor('#35af1f')
+        .setTitle('BattleHost - Soporte a través de Discord (PT-BR)')
+        .setDescription(`Bienvenido al centro de soporte de BattleHost.
+
+        Para que podamos iniciar su servicio, elija un sector y haga clic en el botón correspondiente al área deseada.
+        
+        Departamentos:
+        🔩 - ** Soporte técnico **(problemas/dudas generales del servicio)
+        💰 - ** Soporte financiero ** (soporte previo a la compra/consultas financieras)
+        📋 - ** Validación ** (aplicación de etiqueta de cliente)
+        
+        Ps: tenemos miembros en nuestro equipo responsables de cada sector, por lo que te pedimos que evites abrir un ticket accidentalmente / en el área equivocada.`)
+        .setFooter('Copyright © BattleHost', process.env.LOGO_URL)
+
+      const techSup = new MessageButton()
+        .setCustomId('TICKET es tech')
+        .setEmoji('🔩')
+        .setLabel('- Soporte técnico')
+        .setStyle('SUCCESS')
+
+      const finSup = new MessageButton()
+        .setCustomId('TICKET es fin')
+        .setEmoji('💰')
+        .setLabel('- Soporte financiero')
+        .setStyle('SUCCESS')
+
+      const valSup = new MessageButton()
+        .setCustomId('TICKET es val')
+        .setEmoji('📋')
+        .setLabel('- Validación')
+        .setStyle('SUCCESS')
+
+      channelToSend.send({ embeds: [embed], components: [{ type: 1, components: [techSup, finSup, valSup] }] })
+      ctx.reply('Mensagem criada com sucesso', true)
+      return
+    }
+
   }
 }
 

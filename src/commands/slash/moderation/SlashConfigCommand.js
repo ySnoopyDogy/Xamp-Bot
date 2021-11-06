@@ -20,7 +20,7 @@ class ConfigSlashCommand extends SlashCommand {
               name: 'tipo',
               description: 'Qual canal quer configurar',
               required: true,
-              choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }, { name: 'Categoria', value: 'category' }, { name: 'Log', value: 'log' }]
+              choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }, { name: 'Espanhol', value: 'es' }, { name: 'Categoria', value: 'category' }, { name: 'Log', value: 'log' }]
             },
             {
               type: 'CHANNEL',
@@ -65,7 +65,7 @@ class ConfigSlashCommand extends SlashCommand {
               name: 'tipo',
               description: 'Qual cargo quer configurar',
               required: true,
-              choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }]
+              choices: [{ name: 'Portugues', value: 'br' }, { name: 'Ingles', value: 'us' }, { name: 'Espanhol', value: 'es' }]
             },
             {
               type: 'ROLE',
@@ -141,6 +141,10 @@ class ConfigSlashCommand extends SlashCommand {
             await this.client.database.updateOne({ name: 'config' }, { messageTicketUS: ctx.options.getChannel('canal').id })
             break;
           }
+          case 'es': {
+            await this.client.database.updateOne({ name: 'config' }, { messageTicketES: ctx.options.getChannel('canal').id })
+            break;
+          }
           case 'category': {
             await this.client.database.updateOne({ name: 'config' }, { messageTicketCategory: ctx.options.getChannel('canal').id })
             break;
@@ -169,6 +173,10 @@ class ConfigSlashCommand extends SlashCommand {
           }
           case 'us': {
             await this.client.database.updateOne({ name: 'config' }, { roleLangUS: ctx.options.getRole('cargo').id })
+            break;
+          }
+          case 'es': {
+            await this.client.database.updateOne({ name: 'config' }, { roleLangES: ctx.options.getRole('cargo').id })
             break;
           }
         }
@@ -201,9 +209,6 @@ class ConfigSlashCommand extends SlashCommand {
 
     await this.client.database.updateOne({ name: 'config' }, { $pull: { invites: { code } } })
     return this.respond(ctx, `O código \`${code}\` foi removido dos convites!`)
-
-
-
   }
 
   async respond(ctx, text) {
