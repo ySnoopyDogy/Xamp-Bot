@@ -19,6 +19,11 @@ const categoriesByLang =
     tech: 'Technical Support',
     fin: 'Financial Support',
     val: 'Validation'
+  },
+  es: {
+    tech: 'Soporte técnico',
+    fin: 'Apoyo financiero',
+    val: 'Validación'
   }
 }
 
@@ -82,7 +87,8 @@ class TicketUtils {
         Você será atendido em breve, enquanto isso, descreva mais o seu problema/dúvida.`)
         .setColor('#35af1f')
         .addField('Tópico do Ticket', categoriesByLang[lang][type])
-    } else {
+    }
+    if (lang === 'us') {
       embed.setTitle('BattleHost - Support (EN-US)')
         .setDescription(`Hi ${user.toString()}, welcome to BattleHost's support system.
         You will be attended to soon, in the meantime, please describe your problem/doubt more.`)
@@ -90,6 +96,13 @@ class TicketUtils {
         .addField('Ticket Topic', categoriesByLang[lang][type])
     }
 
+    if (lang === 'es') {
+      embed.setTitle('BattleHost - Soporte (ES-ES)')
+        .setDescription(`Hola, ${user.toString()}, bienvenido al sistema de soporte de BattleHost.
+        Será atendido pronto, mientras tanto, describa su problema/duda más.`)
+        .setColor('#35af1f')
+        .addField('Tema del ticket', categoriesByLang[lang][type])
+    }
     const closeButton = new MessageButton()
       .setCustomId('TICKET pt close')
       .setStyle('DANGER')
